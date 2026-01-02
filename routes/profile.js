@@ -2,14 +2,15 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
 const { ensureAuthenticated } = require('../middleware/auth');
-const userModel = require('../models/userModel');
-const stepModel = require('../models/stepModel');
+const userModule = require('../modules/userModule');
+const stepModule = require('../modules/stepModule');
+
 
 
 router.get('/', ensureAuthenticated, async (req, res) => {
   try {
-    const user = await userModel.getById(req.session.userId);
-    const total = await stepModel.totalByUser(req.session.userId);
+    const user = await userModule.getById(req.session.userId);
+    const total = await stepModule.totalByUser(req.session.userId);
     res.render('profile/index', { user, total });
   } catch (err) {
     console.error(err);
@@ -20,7 +21,7 @@ router.get('/', ensureAuthenticated, async (req, res) => {
 
 router.get('/edit', ensureAuthenticated, async (req, res) => {
   try {
-    const user = await userModel.getById(req.session.userId);
+    const user = await userModule.getById(req.session.userId);
     res.render('profile/edit', { user });
   } catch (err) {
     console.error(err);
@@ -36,7 +37,7 @@ router.post('/update', ensureAuthenticated, async (req, res) => {
     return res.redirect('/profile');
   }
   try {
-    await userModel.updateProfile(req.session.userId, name);
+    await userModule.updateProfile(req.session.userId, name);
     req.flash('success', 'Profil frissítve.');
     res.redirect('/profile');
   } catch (err) {
@@ -55,14 +56,14 @@ const { validatePasswordChange } = require('../middleware/validators');
 router.post('/password/update', ensureAuthenticated, validatePasswordChange, async (req, res) => {
   const { old_password, new_password } = req.body;
   try {
-    const user = await userModel.getById(req.session.userId);
+    const user = await userModule.getById(req.session.userId);
     const ok = await bcrypt.compare(old_password, user.password);
     if (!ok) {
       req.flash('error', 'A régi jelszó hibás.');
       return res.redirect('/profile/password');
     }
     const hashed = await bcrypt.hash(new_password, 10);
-    await userModel.updatePassword(req.session.userId, hashed);
+    await userModule.updatePassword(req.session.userId, hashed);
     req.flash('success', 'Jelszó sikeresen megváltoztatva.');
     res.redirect('/profile');
   } catch (err) {

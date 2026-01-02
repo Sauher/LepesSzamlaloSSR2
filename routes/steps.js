@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { ensureAuthenticated } = require('../middleware/auth');
-const stepModel = require('../models/stepModel');
+const stepModule = require('../models/stepModule');
 
 function validateDate(date) {
   return /^\d{4}-\d{2}-\d{2}$/.test(date);
@@ -13,8 +13,8 @@ function validateSteps(steps) {
 
 router.get('/', ensureAuthenticated, async (req, res) => {
   try {
-    const steps = await stepModel.getByUser(req.session.userId);
-    const total = await stepModel.totalByUser(req.session.userId);
+    const steps = await stepModule.getByUser(req.session.userId);
+    const total = await stepModule.totalByUser(req.session.userId);
     res.render('steps/index', { steps, total });
   } catch (err) {
     console.error(err);
@@ -36,7 +36,7 @@ router.get('/new', ensureAuthenticated, (req, res) => {
 
 router.get('/calendar/events', ensureAuthenticated, async (req, res) => {
   try {
-    const rows = await stepModel.getByUser(req.session.userId);
+    const rows = await stepModule.getByUser(req.session.userId);
     const events = rows.map(r => {
       const dt = (typeof r.date === 'string') ? new Date(r.date) : new Date(r.date);
       const y = dt.getFullYear();
@@ -57,12 +57,12 @@ const { validateStep } = require('../middleware/validators');
 router.post('/', ensureAuthenticated, validateStep, async (req, res) => {
   const { date, steps } = req.body;
   try {
-    const existing = await stepModel.getByUserAndDate(req.session.userId, date);
+    const existing = await stepModule.getByUserAndDate(req.session.userId, date);
     if (existing) {
-      await stepModel.updateById(existing.id, req.session.userId, date, steps);
+      await stepModule.updateById(existing.id, req.session.userId, date, steps);
       req.flash('success', 'Lépésszám frissítve.');
     } else {
-      await stepModel.create(req.session.userId, date, steps);
+      await stepModule.create(req.session.userId, date, steps);
       req.flash('success', 'Lépésszám hozzáadva.');
     }
     res.redirect('/steps');
@@ -76,7 +76,7 @@ router.post('/', ensureAuthenticated, validateStep, async (req, res) => {
 router.post('/:id/update', ensureAuthenticated, validateStep, async (req, res) => {
   const { date, steps } = req.body;
   try {
-    await stepModel.updateById(req.params.id, req.session.userId, date, steps);
+    await stepModule.updateById(req.params.id, req.session.userId, date, steps);
     req.flash('success', 'Lépésszám frissítve.');
     res.redirect('/steps');
   } catch (err) {
@@ -88,7 +88,7 @@ router.post('/:id/update', ensureAuthenticated, validateStep, async (req, res) =
 
 router.get('/:id/edit', ensureAuthenticated, async (req, res) => {
   try {
-    const step = await stepModel.getById(req.params.id);
+    const step = await stepModule.getById(req.params.id);
     if (!step || step.user_id !== req.session.userId) {
       req.flash('error', 'Nincs jogosultságod ehhez a művelethez.');
       return res.redirect('/steps');
@@ -109,7 +109,7 @@ router.get('/:id/edit', ensureAuthenticated, async (req, res) => {
 
 router.post('/:id/delete', ensureAuthenticated, async (req, res) => {
   try {
-    await stepModel.deleteById(req.params.id, req.session.userId);
+    await stepModule.deleteById(req.params.id, req.session.userId);
     req.flash('success', 'Lépés törölve.');
     res.redirect('/steps');
   } catch (err) {
@@ -121,7 +121,7 @@ router.post('/:id/delete', ensureAuthenticated, async (req, res) => {
 
 router.get('/calendar/view', ensureAuthenticated, async (req, res) => {
   try {
-    const rows = await stepModel.getByUser(req.session.userId);
+    const rows = await stepModule.getByUser(req.session.userId);
     res.render('steps/calendar', { rows });
   } catch (err) {
     console.error(err);
@@ -138,7 +138,7 @@ router.get('/chart/view', ensureAuthenticated, async (req, res) => {
     prior.setDate(today.getDate() - (period - 1));
     const from = prior.toISOString().slice(0,10);
     const to = today.toISOString().slice(0,10);
-    const data = await stepModel.getRange(req.session.userId, from, to);
+    const data = await stepModule.getRange(req.session.userId, from, to);
     res.render('steps/chart', { data, from, to, period });
   } catch (err) {
     console.error(err);
