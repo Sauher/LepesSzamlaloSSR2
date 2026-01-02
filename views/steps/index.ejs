@@ -1,0 +1,56 @@
+<%- include('../partials/header') %>
+<div class="container mt-5">
+  <div class="row mb-4">
+    <div class="col-md-8">
+      <h2>📊 Lépések</h2>
+      <p class="lead text-muted">Összes lépés: <strong class="text-info"><%= total %></strong></p>
+    </div>
+    <div class="col-md-4 text-end">
+      <a class="btn btn-success btn-lg" href="/steps/new">➕ Új bejegyzés</a>
+    </div>
+  </div>
+
+  <% if (!steps || steps.length === 0) { %>
+    <div class="alert alert-info text-center py-5">
+      <h5>Nincsenek bejegyzések</h5>
+      <p>Kezdj el új bejegyzés hozzáadásával!</p>
+    </div>
+  <% } else { %>
+    <div class="table-responsive shadow-lg rounded">
+      <table class="table table-striped table-hover mb-0">
+        <thead class="table-dark">
+          <tr>
+            <th>📅 Dátum</th>
+            <th>👟 Lépésszám</th>
+            <th class="text-center">⚙️ Műveletek</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% function localDate(d) { const dt = (typeof d === 'string') ? new Date(d) : d; const y = dt.getFullYear(); const m = String(dt.getMonth() + 1).padStart(2, '0'); const day = String(dt.getDate()).padStart(2, '0'); return `${y}-${m}-${day}`; } %>
+          <% steps.forEach(function(s) { %>
+          <tr>
+            <td><strong><%= localDate(s.date) %></strong></td>
+            <td><span class="badge bg-info"><%= s.steps %></span></td>
+            <td class="text-center">
+              <a class="btn btn-sm btn-primary" href="/steps/<%= s.id %>/edit">✏️ Szerkeszt</a>
+              <form method="POST" action="/steps/<%= s.id %>/delete" style="display:inline-block" onsubmit="return confirm('Biztosan törlöd?');">
+                <button class="btn btn-sm btn-danger" type="submit">🗑️ Töröl</button>
+              </form>
+            </td>
+          </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  <% } %>
+
+  <div class="row mt-4 g-2">
+    <div class="col-md-6">
+      <a href="/steps/calendar/view" class="btn btn-outline-secondary btn-block w-100">📅 Naptár nézet</a>
+    </div>
+    <div class="col-md-6">
+      <a href="/steps/chart/view" class="btn btn-outline-secondary btn-block w-100">📈 Grafikon nézet</a>
+    </div>
+  </div>
+</div>
+<%- include('../partials/footer') %>

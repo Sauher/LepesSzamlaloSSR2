@@ -1,0 +1,22 @@
+<%- include('../partials/header') %>
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <h2 class="text-center mb-4">👤 Profil</h2>
+      <div class="card shadow-lg">
+        <div class="card-body">
+          <h5 class="card-title text-center"><%= user.name || 'Név nincs megadva' %></h5>
+          <hr>
+          <p class="card-text"><strong>📧 Email:</strong> <%= user.email %></p>
+          <p class="card-text"><strong>📅 Regisztráció:</strong> <%= user.created_at.toISOString().slice(0,10) %></p>
+          <p class="card-text"><strong>🚶 Összes lépés:</strong> <span class="badge bg-info"><%= total %></span></p>
+          <div class="d-grid gap-2 mt-4">
+            <a href="/profile/edit" class="btn btn-primary">✏️ Profil szerkesztése</a>
+            <a href="/profile/password" class="btn btn-secondary">🔐 Jelszó módosítása</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<%- include('../partials/footer') %>

@@ -1,0 +1,33 @@
+{
+  "name": "lepesszamlalossr",
+  "version": "2.0.0",
+  "description": "Lépésszámláló szerveroldali rendereléssel",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sauher/LepesSzamlaloSSR2.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Sauher/LepesSzamlaloSSR2/issues"
+  },
+  "homepage": "https://github.com/Sauher/LepesSzamlaloSSR2#readme",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "dotenv": "^17.2.3",
+    "ejs": "^3.1.10",
+    "express": "^5.2.1",
+    "express-session": "^1.18.2",
+    "mysql": "^2.18.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.11"
+  }
+}

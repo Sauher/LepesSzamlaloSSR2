@@ -1,0 +1,28 @@
+<%- include('../partials/header') %>
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card shadow-lg">
+        <div class="card-body">
+          <h2 class="card-title mb-4"><%= step ? '✏️ Szerkesztés' : '➕ Lépésszám felvétele' %></h2>
+          <form method="POST" action="<%= step ? '/steps/' + step.id + '/update' : '/steps' %>">
+            <div class="mb-3">
+              <label class="form-label">📅 Dátum</label>
+              <% function localDate(d) { if (!d) return ''; const dt = (typeof d === 'string') ? new Date(d) : d; const y = dt.getFullYear(); const m = String(dt.getMonth() + 1).padStart(2, '0'); const day = String(dt.getDate()).padStart(2, '0'); return `${y}-${m}-${day}`; } %>
+              <input class="form-control" type="date" name="date" value="<%= step ? localDate(step.date) : '' %>" max="<%= maxDate %>" required>
+            </div>
+            <div class="mb-4">
+              <label class="form-label">👟 Lépésszám</label>
+              <input class="form-control" type="number" name="steps" min="0" value="<%= step ? step.steps : '' %>" placeholder="Írj be egy számot..." required>
+            </div>
+            <div class="d-grid gap-2">
+              <button class="btn btn-primary btn-lg" type="submit">💾 Mentés</button>
+              <a class="btn btn-secondary" href="/steps">❌ Mégse</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<%- include('../partials/footer') %>

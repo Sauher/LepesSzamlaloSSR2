@@ -1,0 +1,50 @@
+<%- include('partials/header') %>
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-8">
+      <h2>🏠 Dashboard</h2>
+      <p class="lead">Üdvözöllek! Kövessed nyomon napi lépéseidet és látsd meg a fejlődésed.</p>
+    </div>
+  </div>
+  <div class="row g-4 mt-3">
+    <div class="col-md-6">
+      <div class="card shadow-lg">
+        <div class="card-body text-center">
+          <h5 class="card-title">📊 Lépések kezelése</h5>
+          <p class="card-text">Rögzítsd vagy szerkeszd napi lépéseidet.</p>
+          <a href="/steps" class="btn btn-primary mt-2">Lépésszám</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card shadow-lg">
+        <div class="card-body text-center">
+          <h5 class="card-title">📅 Naptár nézet</h5>
+          <p class="card-text">Látsd meg a lépéseket naptár formában.</p>
+          <a href="/steps/calendar/view" class="btn btn-primary mt-2">Naptár</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row g-4 mt-2">
+    <div class="col-md-6">
+      <div class="card shadow-lg">
+        <div class="card-body text-center">
+          <h5 class="card-title">📈 Grafikon</h5>
+          <p class="card-text">Vizualizáld a lépéseid trendjét.</p>
+          <a href="/steps/chart/view" class="btn btn-primary mt-2">Grafikon</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card shadow-lg">
+        <div class="card-body text-center">
+          <h5 class="card-title">👤 Profil</h5>
+          <p class="card-text">Szerkeszd a profilod és jelszavad.</p>
+          <a href="/profile" class="btn btn-primary mt-2">Profil</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<%- include('partials/footer') %>

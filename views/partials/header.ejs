@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="hu" data-bs-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title><%= (typeof title !== 'undefined') ? title : 'Lépésszámláló' %></title>
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/stepcounter.css">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/">Menü</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <% if (locals.session && locals.session.userId) { %>
+        <li class="nav-item"><a class="nav-link <%= (currentPath || '').startsWith('/dashboard') ? 'active' : '' %>" href="/dashboard">Dashboard</a></li>
+        <li class="nav-item"><a class="nav-link <%= (currentPath || '').startsWith('/steps') && !(currentPath || '').startsWith('/steps/calendar') && !(currentPath || '').startsWith('/steps/chart') ? 'active' : '' %>" href="/steps">Steps</a></li>
+        <li class="nav-item"><a class="nav-link <%= (currentPath || '').startsWith('/steps/calendar') ? 'active' : '' %>" href="/steps/calendar/view">Calendar</a></li>
+        <li class="nav-item"><a class="nav-link <%= (currentPath || '').startsWith('/steps/chart') ? 'active' : '' %>" href="/steps/chart/view">Chart</a></li>
+        <li class="nav-item"><a class="nav-link <%= (currentPath || '').startsWith('/profile') ? 'active' : '' %>" href="/profile">Profile</a></li>
+        <li class="nav-item"><a class="nav-link" href="/logout">Kilépés</a></li>
+        <% } else { %>
+        <li class="nav-item"><a class="nav-link <%= (currentPath || '').startsWith('/login') ? 'active' : '' %>" href="/login">Belépés</a></li>
+        <li class="nav-item"><a class="nav-link <%= (currentPath || '').startsWith('/register') ? 'active' : '' %>" href="/register">Regisztráció</a></li>
+        <% } %>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container mt-3">
+    <p id="MainTitle">Lépésszámláló v2.0</p>
+  <% if (messages.error && messages.error.length) { %>
+    <% messages.error.forEach(function(m) { %>
+      <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <%= m %>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    <% }) %>
+  <% } %>
+  <% if (messages.success && messages.success.length) { %>
+    <% messages.success.forEach(function(m) { %>
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <%= m %>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    <% }) %>
+  <% } %>
+  <% if (messages.info && messages.info.length) { %>
+    <% messages.info.forEach(function(m) { %>
+      <div class="alert alert-info alert-dismissible fade show" role="alert">
+        <%= m %>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    <% }) %>
+  <% } %>
+</div>

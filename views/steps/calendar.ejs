@@ -1,0 +1,72 @@
+<%- include('../partials/header') %>
+<div class="container mt-5">
+  <div class="row mb-4">
+    <div class="col-md-12">
+      <h2>📅 Naptár</h2>
+      <p class="lead text-muted">Kattints a dátumra új bejegyzéshez vagy az eseményre szerkesztéshez.</p>
+    </div>
+  </div>
+  <div class="card shadow-lg" style="background: linear-gradient(135deg, rgba(45, 45, 68, 0.8), rgba(58, 58, 82, 0.8)); border: 1px solid rgba(0, 212, 255, 0.2);">
+    <div class="card-body" style="padding: 2rem;">
+      <div id="calendar"></div>
+    </div>
+  </div>
+  <div class="mt-4 text-center">
+    <a href="/steps" class="btn btn-outline-secondary">🔙 Vissza a listához</a>
+  </div>
+</div>
+
+<link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.19/main.min.css" rel="stylesheet" />
+<style>
+  .fc {
+    --fc-border-color: rgba(0, 212, 255, 0.2);
+    --fc-button-bg-color: #00d4ff;
+    --fc-button-border-color: #00d4ff;
+    --fc-button-hover-bg-color: #0099ff;
+    --fc-event-bg-color: #00d4ff;
+    --fc-event-border-color: #00d4ff;
+    --fc-highlight-bg-color: rgba(0, 212, 255, 0.1);
+    --fc-daygrid-day-frame-height: auto;
+  }
+  .fc .fc-button-primary {
+    background-color: #00d4ff;
+    border-color: #00d4ff;
+    color: #1e1e2e;
+    font-weight: 600;
+  }
+  .fc .fc-button-primary:hover {
+    background-color: #0099ff;
+  }
+  .fc .fc-daygrid-day.fc-day-other {
+    background-color: rgba(0, 0, 0, 0.2);
+  }
+  .fc .fc-col-header {
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(0, 168, 255, 0.1));
+    border-bottom: 2px solid rgba(0, 212, 255, 0.3);
+  }
+  .fc .fc-daygrid-day {
+    background: rgba(255, 255, 255, 0.02);
+  }
+  .fc .fc-daygrid-day:hover {
+    background: rgba(0, 212, 255, 0.1);
+  }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.19/index.global.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var calendarEl = document.getElementById('calendar');
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+      initialView: 'dayGridMonth',
+      events: '/steps/calendar/events',
+      dateClick: function(info) {
+        window.location = '/steps/new?date=' + info.dateStr;
+      },
+      eventClick: function(info) {
+        window.location = '/steps/' + info.event.id + '/edit';
+      }
+    });
+    calendar.render();
+  });
+</script>
+
+<%- include('../partials/footer') %>
