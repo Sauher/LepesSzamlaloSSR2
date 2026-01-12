@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { ensureAuthenticated } = require('../middleware/auth');
-const stepModule = require('../models/stepModule');
+const stepModule = require('../modules/stepModule');
 
 function validateDate(date) {
   return /^\d{4}-\d{2}-\d{2}$/.test(date);

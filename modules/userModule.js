@@ -7,7 +7,7 @@ module.exports = {
   },
 
   updateProfile: async (id, name) => {
-    return await db.query('UPDATE users SET name = ? WHERE id = ?', [name || null, id]);
+    return await db.query('UPDATE users SET name = ? WHERE id = ?', [name, id]);
   },
 
   updatePassword: async (id, hashed) => {

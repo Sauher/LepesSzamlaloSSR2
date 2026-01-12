@@ -9,7 +9,7 @@ const pool = mysql.createPool({
   database: process.env.DB_NAME
 });
 
-// Promisify for convenience
+
 pool.query = util.promisify(pool.query);
 
 module.exports = pool;
